@@ -16,9 +16,6 @@ public class PauseManager : MonoBehaviour
     [SerializeField] private string[] missionResults;
     public TextMeshProUGUI[] pointsText;
 
-    [SerializeField] private GameObject[] skillList;
-    [SerializeField] private Sprite[] spriteList;
-    [SerializeField] private Image eyeCon;
     private void Start()
     {
         pauseManager = this;

@@ -112,14 +112,11 @@ public class BulletHit : MonoBehaviour
             CharacterObject chara = character.gameObject.GetComponent<CharacterObject>();
 
             var direction = chara.transform.position - (transform.position + transform.position.normalized);
-            Debug.Log($"Position {transform.position} + Forward {transform.position.normalized} = Point {transform.position + transform.position.normalized}");
-            Debug.Log("Direction = " + direction);
 
             Vector3 ExplosionVelocity = direction.normalized * explosionForce;
             ExpVel = ExplosionVelocity;
-            Debug.Log("Velocity = " + ExpVel);
-            chara.StartStateFromScript(chara.spinStateIndex);
-            chara.velocity += ExpVel;
+            Debug.Log($"Velocity = {ExpVel} and Direction = {direction}");
+            chara.HitByRocket(ExpVel, explosionForce);
         }
     }
 

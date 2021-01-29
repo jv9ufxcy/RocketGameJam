@@ -385,7 +385,7 @@ public class CharacterObject : MonoBehaviour
     {
         velocity.y = _pow*jumpPow;
         jumps--;
-
+        isSpinning = false;
         landingParticle.Play();
     }
     void CanCancel(float _val)
@@ -618,11 +618,11 @@ public class CharacterObject : MonoBehaviour
     {
         float frameWindow = pressureLimit - criticalFrameWindow;
 
-        if (shotPressure >= minShotPressure && shotPressure < strongShotPressure||shotPressure>=pressureLimit)
+        if (shotPressure >= minShotPressure && shotPressure < strongShotPressure)
         {
             WeakRocketFire();
         }
-        else if (shotPressure >= strongShotPressure && shotPressure < frameWindow)
+        else if (shotPressure >= strongShotPressure && shotPressure < frameWindow || shotPressure >= pressureLimit)
         {
             StrongRocketFire();
         }
@@ -760,24 +760,43 @@ public class CharacterObject : MonoBehaviour
         }
     }
     public float minSpinSpeed = 20f;
-    public int spinStateIndex = 9;
-    private void OnCollisionEnter2D(Collision2D coll)
+    public int spinStateIndex = 8;
+    public bool isSpinning = false;
+    public float newSpeed;
+
+    public void HitByRocket(Vector2 expVel, float explosionForce)
+    {
+        StartState(spinStateIndex);
+        isSpinning = true;
+        newSpeed = explosionForce / 2;
+        velocity += expVel;
+        GameEngine.SetHitPause(explosionForce / 10);
+    }
+    private void OnCollisionStay2D(Collision2D coll)
     {
         var speed = velocity.magnitude;
         var dir = Vector3.Reflect(velocity.normalized, coll.contacts[0].normal);
-        if (currentState==spinStateIndex&&coll.gameObject.layer==whatCountsAsGround)
+
+        if (speed > minSpinSpeed && isSpinning)
         {
-            if (speed > minSpinSpeed)
-            {
-                velocity = dir * Mathf.Max(speed, 0f);
-            }
-            else
-                StartState(0);
-            if (IsGrounded())
-            {
-                StartState(1);
-            }
+            velocity = dir * Mathf.Max(Mathf.Round(newSpeed), 0f);
+            velocity.y += newSpeed / 2;
+            Debug.Log("Speed = " + Mathf.Round(speed));
         }
+        
+        //if (/*currentState==spinStateIndex&&*/coll.gameObject.layer==whatCountsAsGround)
+        //{
+        //    //if (speed > minSpinSpeed)
+        //    //{
+        //        //velocity = dir * Mathf.Max(speed, 0f);
+        //    //}
+        //    //else
+        //    //    StartState(0);
+        //    //if (IsGrounded())
+        //    //{
+        //    //    StartState(1);
+        //    //}
+        //}
     }
     private void PauseMenu()
     {
@@ -889,6 +908,12 @@ public class CharacterObject : MonoBehaviour
             dashes = dashMax;
             //velocity.y = 0;
             GroundTouch();
+
+            if (isSpinning)
+            {
+                StartState(1);
+                isSpinning = false;
+            }
         }
         else
         {
@@ -907,28 +932,31 @@ public class CharacterObject : MonoBehaviour
                 {
                     jumps--;
                 }
-                if (IsOnWall() && leftStick.x == direction && velocity.y < 0)//wall
-                {
-                    if (currentState != spinStateIndex)
-                    {
-                        velocity.y = wallSlideSpeed;
-                        animAerialState = -.01f;
-                    }
-                    wallFlag = true;
-                }
-                else
-                {
-                    if (controller.collisions.above || controller.collisions.below)
-                        velocity.y = 0;
-                    else
-                    {
-                        velocity.y += gravity;
-                        Mathf.Clamp(velocity.y, gravityMin, 0);
-                        hasLanded = false;
-                    }
+                //if (IsOnWall())//wall
+                //{
+                //    wallFlag = true;
+                //    if (leftStick.x == direction && velocity.y < 0)
+                //    {
+                //        if (currentState != spinStateIndex)
+                //        {
+                //            //velocity.y = wallSlideSpeed;
+                //            animAerialState = -.01f;
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //if (controller.collisions.above || controller.collisions.below)
+                //    velocity.y = 0;
+                //else
+                //{
+                    velocity.y += gravity;
+                    Mathf.Clamp(velocity.y, gravityMin, 0);
+                    hasLanded = false;
+                //}
+                wallFlag = IsOnWall();
 
-                    wallFlag = false;
-                }
+                //}
             }
 
         }

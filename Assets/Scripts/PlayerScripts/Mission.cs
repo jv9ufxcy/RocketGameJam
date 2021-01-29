@@ -87,7 +87,7 @@ public class Mission : MonoBehaviour
 
         mainChar.controlType = CharacterObject.ControlType.PLAYER;
         BeginTimer();
-        MusicManager.instance.StartBGM(stageTheme);
+        //MusicManager.instance.StartBGM(stageTheme);
     }
     public void StartMission()
     {
@@ -105,7 +105,7 @@ public class Mission : MonoBehaviour
     }
     private void EndTimer()
     {
-        MusicManager.instance.StopMusic();
+        //MusicManager.instance.StopMusic();
         isMissionActive = false;
     }
     private IEnumerator UpdateTimer()
