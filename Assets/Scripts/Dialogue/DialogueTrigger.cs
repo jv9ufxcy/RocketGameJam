@@ -15,7 +15,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         DialogueManager.instance.StartDialogue(dialogue, this);
         GameEngine.gameEngine.mainCharacter.StartStateFromScript(0);
-        MusicManager.instance.StopMusic();
+        //MusicManager.instance.StopMusic();
         if (shouldMoveCharacter)
         {
             for (int i = 0; i < character.Length; i++)
@@ -26,6 +26,10 @@ public class DialogueTrigger : MonoBehaviour
     }
     public void BeginDialogue() { OnDialogueStart.Invoke(); TriggerDialogue(); }
     public void EndDialogue() { OnDialogueEnd.Invoke(); }
+    public void StartMissionFromDialogue()
+    {
+        Mission.instance.StartMission();
+    }
 
 
 }

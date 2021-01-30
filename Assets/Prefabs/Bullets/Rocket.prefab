@@ -52,7 +52,7 @@ MonoBehaviour:
   closestEnemy: {fileID: 0}
   targetPos: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
-  bulletHitEffect: {fileID: 7459617967329291029, guid: 18648bde2cd3dc64bb76b5582d3010b0,
+  bulletHitEffect: {fileID: 1315619723106520, guid: c604edeb90222b64883a4fb75f22afb9,
     type: 3}
   bulletChild: {fileID: 0}
   tagToHit: Enemy

@@ -709,7 +709,9 @@ MonoBehaviour:
       omitList: 
       nextFollowups: 01000000020000000300000004000000
   globalPrefabs:
-  - {fileID: 0}
+  - {fileID: 7459617967329291029, guid: bf5c767ee2e2a3a4490183b06da31d7a, type: 3}
+  - {fileID: 7459617967329291029, guid: 18648bde2cd3dc64bb76b5582d3010b0, type: 3}
+  - {fileID: 1315619723106520, guid: c604edeb90222b64883a4fb75f22afb9, type: 3}
   rawInputs:
   - inputType: 0
     name: Ps4X
@@ -875,7 +877,7 @@ MonoBehaviour:
     commands: 00000000030000000000000003000000
     clean: 0
     anyOrder: 0
-    checkStep: 0
+    checkStep: 1
     angleChange: 0
     prevAngle: 0
     curAngle: 0
@@ -885,7 +887,7 @@ MonoBehaviour:
     commands: 0000000003000000
     clean: 0
     anyOrder: 0
-    checkStep: 0
+    checkStep: 1
     angleChange: 0
     prevAngle: 0
     curAngle: 0
@@ -895,7 +897,7 @@ MonoBehaviour:
     commands: 0000000001000000
     clean: 0
     anyOrder: 0
-    checkStep: 0
+    checkStep: 1
     angleChange: 0
     prevAngle: 0
     curAngle: 0
@@ -905,7 +907,7 @@ MonoBehaviour:
     commands: 0000000002000000
     clean: 0
     anyOrder: 0
-    checkStep: 0
+    checkStep: 1
     angleChange: 0
     prevAngle: 0
     curAngle: 0

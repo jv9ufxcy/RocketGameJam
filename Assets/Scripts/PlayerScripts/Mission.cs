@@ -42,7 +42,7 @@ public class Mission : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(instance);
+            //DontDestroyOnLoad(instance);
         }
         else
         {
@@ -74,6 +74,7 @@ public class Mission : MonoBehaviour
     }
     private IEnumerator MissionStart()
     {
+        mainChar.leftStick = Vector2.zero;
         missionStartText.rectTransform.DOAnchorPos(offScreen, 0);
         missionStartText.text = missionStart;
         mainChar.controlType = CharacterObject.ControlType.OBJECT;
@@ -194,7 +195,7 @@ public class Mission : MonoBehaviour
     {
         CalculateGrade();
         GameManager.instance.RestoreCheckpointStart();
-        yield return new WaitForSeconds(missionStartSeconds);
+        AudioManager.instance.PlaySound("Victory");
 
         missionStartText.transform.DOScale(1, 0);
         missionStartText.rectTransform.DOAnchorPos(offScreen, 0);

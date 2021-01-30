@@ -50,6 +50,9 @@ TagManager:
   - name: Foreground
     uniqueID: 3966562291
     locked: 0
+  - name: BGEffects
+    uniqueID: 3169741857
+    locked: 0
   - name: Actors
     uniqueID: 2475385033
     locked: 0

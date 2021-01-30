@@ -557,7 +557,7 @@ public class HealthManager : MonoBehaviour
         {
             case CharacterObject.ControlType.AI:
                 OnDeath.Invoke();
-                character.GlobalPrefab(5);
+                character.GlobalPrefab(0);
                 character.OnDeath();
                 audioManager.PlaySound("Death");
                 yield return new WaitForFixedUpdate();//get length of death animation        
@@ -570,7 +570,7 @@ public class HealthManager : MonoBehaviour
                 break;
             case CharacterObject.ControlType.BOSS:
                 OnDeath.Invoke();
-                character.GlobalPrefab(5);
+                character.GlobalPrefab(0);
                 character.OnDeath();
                 audioManager.PlaySound("Death");
                 yield return new WaitForFixedUpdate();//get length of death animation        
@@ -581,9 +581,9 @@ public class HealthManager : MonoBehaviour
             case CharacterObject.ControlType.PLAYER:
                 //RESPAWN HERE
                 OnDeath.Invoke();
-                character.QuickChangeForm(4);
+                //character.QuickChangeForm(4);
                 yield return new WaitForFixedUpdate();//get length of death animation        
-                character.GlobalPrefab(6);
+                character.GlobalPrefab(0);
                 character.OnDeath();
                 //character.StartStateFromScript(36);
                 yield return new WaitForFixedUpdate();//get length of death animation        

@@ -87,13 +87,13 @@ public class CharacterObject : MonoBehaviour
                 break;
             case ControlType.PLAYER:
                 PauseMenu();
-                if (!PauseManager.IsGamePaused)
+                if (!PauseManager.IsGamePaused && !DialogueManager.instance.isDialogueActive)
                 {
                     JumpCut();
                     //DashCut();
                     ChargeAttack();
+                    leftStick = new Vector2(Input.GetAxis(GameEngine.coreData.rawInputs[13].name), Input.GetAxis(GameEngine.coreData.rawInputs[14].name));
                 }
-                leftStick = new Vector2(Input.GetAxis(GameEngine.coreData.rawInputs[13].name), Input.GetAxis(GameEngine.coreData.rawInputs[14].name));
                 break;
             default:
                 break;
@@ -101,7 +101,7 @@ public class CharacterObject : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (!PauseManager.IsGamePaused)
+        if (!PauseManager.IsGamePaused && !DialogueManager.instance.isDialogueActive)
         {
             if (GameEngine.hitStop <= 0)
             {
@@ -385,7 +385,7 @@ public class CharacterObject : MonoBehaviour
     {
         velocity.y = _pow*jumpPow;
         jumps--;
-        isSpinning = false;
+        StopSpinning();
         landingParticle.Play();
     }
     void CanCancel(float _val)
@@ -766,10 +766,19 @@ public class CharacterObject : MonoBehaviour
 
     public void HitByRocket(Vector2 expVel, float explosionForce)
     {
+        AttackEvent curAtk = GameEngine.coreData.characterStates[weakShotIndex].attacks[0];
+        if (CanBeHit(curAtk))
+        {
+            healthManager.RemoveHealth(2);
+            PlayAudio("Hurt");
+            StartInvul(explosionForce / 10);
+        }
+
         StartState(spinStateIndex);
         isSpinning = true;
         newSpeed = explosionForce / 2;
         velocity += expVel;
+        bombDashParticle.Play();
         GameEngine.SetHitPause(explosionForce / 10);
     }
     private void OnCollisionStay2D(Collision2D coll)
@@ -912,7 +921,7 @@ public class CharacterObject : MonoBehaviour
             if (isSpinning)
             {
                 StartState(1);
-                isSpinning = false;
+                StopSpinning();
             }
         }
         else
@@ -963,6 +972,13 @@ public class CharacterObject : MonoBehaviour
         Move(velocity);
         velocity.Scale(friction);
     }
+
+    private void StopSpinning()
+    {
+        bombDashParticle.Stop();
+        isSpinning = false;
+    }
+
     public void Move(Vector2 velocity)
     {
         //myRB.velocity = velocity;
@@ -1109,7 +1125,7 @@ public class CharacterObject : MonoBehaviour
                             break;
                         case ControlType.PLAYER:
                             healthManager.RemoveHealth(curAtk.damage);
-                            PlayAudio("PlayerTakeDamage");
+                            PlayAudio("Hurt");
                             GlobalPrefab(2);
                             break;
                         default:
