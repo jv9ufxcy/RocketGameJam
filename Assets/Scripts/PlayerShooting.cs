@@ -14,7 +14,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float rotSpeed;
     public Transform playerAnchor, bulletMuzzle;
     [SerializeField] private GameObject playerCharacter;
-
+    public LineRenderer lineRend;
     [Space]
     [Header("Charging Shot")]
     [SerializeField] private Slider chargeSlider;
@@ -42,6 +42,7 @@ public class PlayerShooting : MonoBehaviour
             Debug.LogError("No Audio Manager in Scene");
         }
         bulletMuzzle = GetComponentInChildren<Transform>();
+        lineRend.transform.SetParent(null);
     }
     void Update()
     {

@@ -456,12 +456,16 @@ MonoBehaviour:
   landingParticle: {fileID: 7219298220687024125}
   shootAnim: 0
   shootAnimMax: 1
-  fireRate: 10
+  maxDist: 10
   bullets:
   - {fileID: 4469537494615687283, guid: 8be756d7de8a57a4180271bb9c430b6b, type: 3}
   - {fileID: 4469537494615687283, guid: 14dfe983e7b1e274fa28bce6d73e5081, type: 3}
   - {fileID: 4469537494615687283, guid: a16976b77154aed41a7c218a5a88d17c, type: 3}
   bulletSpawnPos: {x: 0.5, y: 1}
+  lineRend: {fileID: 0}
+  whatLayersToHit:
+    serializedVersion: 2
+    m_Bits: 1280
   minSpinSpeed: 12
   spinStateIndex: 8
   isSpinning: 0

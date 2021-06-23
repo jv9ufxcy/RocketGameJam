@@ -176,20 +176,14 @@ MonoBehaviour:
     - start: 6
       end: 6
       active: 1
-      script: 10
+      script: 11
       parameters:
-      - name: 
-        val: 0
-      - name: 
-        val: 25
       - name: 
         val: 1
       - name: 
-        val: 0
+        val: 40
       - name: 
-        val: 0
-      - name: 
-        val: 0
+        val: 8
     - start: 0
       end: 5
       active: 1
@@ -204,6 +198,15 @@ MonoBehaviour:
       parameters:
       - name: WeakShot
         val: 0
+    - start: 6
+      end: 6
+      active: 1
+      script: 12
+      parameters:
+      - name: 
+        val: 2
+      - name: 
+        val: 0.2
     attacks:
     - start: 0
       length: 0
@@ -515,19 +518,21 @@ MonoBehaviour:
     - name: Rotation
       val: 0
   - index: 0
-    name: Dash
+    name: FireRay
     parameters:
-    - name: Bullet Speed
+    - name: BulletIndex
       val: 40
-  - index: 0
-    name: KinzecterActions
-    parameters:
-    - name: Action
+    - name: BulletPower
       val: 0
-    - name: OffsetX
+    - name: AttackIndex
+      val: 0
+  - index: 0
+    name: ShakeScreen
+    parameters:
+    - name: Intensity
       val: 1
-    - name: OffsetY
-      val: 1
+    - name: Time
+      val: 0.2
   - index: 0
     name: AirStill
     parameters:
@@ -577,7 +582,7 @@ MonoBehaviour:
           input: 0
           state: 0
           inputs: 
-        followUps: 0100000002000000
+        followUps: 010000000200000003000000
         strict: 0
         myRect:
           serializedVersion: 2
@@ -619,8 +624,24 @@ MonoBehaviour:
           height: 50
         activated: 1
         priority: 0
+      - idIndex: 3
+        command:
+          motionCommand: 0
+          input: 5
+          state: 5
+          inputs: 
+        followUps: 
+        strict: 0
+        myRect:
+          serializedVersion: 2
+          x: 52
+          y: 118
+          width: 175
+          height: 50
+        activated: 1
+        priority: 0
       omitList: 
-      nextFollowups: 0100000002000000
+      nextFollowups: 010000000200000003000000
     - stateName: Aerial
       aerial: 1
       explicitState: 0
@@ -632,7 +653,7 @@ MonoBehaviour:
           input: 0
           state: 0
           inputs: 
-        followUps: 01000000020000000300000004000000
+        followUps: 0100000002000000030000000400000005000000
         strict: 0
         myRect:
           serializedVersion: 2
@@ -706,8 +727,24 @@ MonoBehaviour:
           height: 50
         activated: 1
         priority: 0
+      - idIndex: 5
+        command:
+          motionCommand: 0
+          input: 5
+          state: 5
+          inputs: 
+        followUps: 
+        strict: 0
+        myRect:
+          serializedVersion: 2
+          x: 541
+          y: 114
+          width: 175
+          height: 50
+        activated: 1
+        priority: 0
       omitList: 
-      nextFollowups: 01000000020000000300000004000000
+      nextFollowups: 0100000002000000030000000400000005000000
   globalPrefabs:
   - {fileID: 7459617967329291029, guid: bf5c767ee2e2a3a4490183b06da31d7a, type: 3}
   - {fileID: 7459617967329291029, guid: 18648bde2cd3dc64bb76b5582d3010b0, type: 3}

@@ -15,7 +15,7 @@ public class BulletHit : MonoBehaviour
     public CharacterObject target;
     public EnemySpawn closestEnemy;
     public Vector3 targetPos, velocity;
-    [SerializeField] private GameObject bulletHitEffect, bulletChild;
+    public GameObject bulletHitEffect, bulletChild;
     [SerializeField] private string tagToHit = "Enemy", tagToCollide="Ground";
     public float lifeTime = 2f, speed, rotation, gravity=-2f, targetRange=10f;
     [SerializeField] private int attackState = 0;

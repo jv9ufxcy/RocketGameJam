@@ -60,7 +60,7 @@ public class CharacterObject : MonoBehaviour
     void Start()
     {
         defaultMat = spriteRend.material;
-
+        lineRend = PlayerShooting.instance.lineRend;
         audioManager = AudioManager.instance;
         if (audioManager == null)
         {
@@ -91,7 +91,7 @@ public class CharacterObject : MonoBehaviour
                 {
                     JumpCut();
                     //DashCut();
-                    ChargeAttack();
+                    //ChargeAttack();
                     leftStick = new Vector2(Input.GetAxis(GameEngine.coreData.rawInputs[13].name), Input.GetAxis(GameEngine.coreData.rawInputs[14].name));
                 }
                 break;
@@ -311,10 +311,10 @@ public class CharacterObject : MonoBehaviour
                 FireBullet(_params[0].val, _params[1].val, _params[2].val, _params[3].val, _params[4].val, _params[5].val);
                 break;
             case 11:
-                //Dash(_params[0].val);
+                FireRay(_params[0].val, _params[1].val, _params[2].val);
                 break;
             case 12:
-                //KinzectorActions(_params[0].val, _params[1].val, _params[2].val);
+                ShakeScreen(_params[0].val, _params[1].val);
                 break;
             case 13:
                 AirStill(_params[0].val);
@@ -659,12 +659,40 @@ public class CharacterObject : MonoBehaviour
     [Space]
     [Header("Shooting Stats")]
     public float shootAnim, shootAnimMax;
-    public float fireRate = 10f;
     private float timeToNextFire = 0f;
     public GameObject[] bullets;
     [SerializeField] private Vector2 bulletSpawnPos = new Vector2(0.5f, 1f);
+    public LineRenderer lineRend;
+    [SerializeField] private LayerMask whatLayersToHit;
 
-
+    public void FireRay(float bulletType, float bulletPow, float maxDist)
+    {
+        var dir = PlayerShooting.instance.bulletMuzzle.transform.up;
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, dir, maxDist, whatLayersToHit);
+        if (hitInfo)
+        {
+            Instantiate(bullets[(int)bulletType].GetComponent<BulletHit>().bulletHitEffect, hitInfo.point, Quaternion.identity);
+            lineRend.SetPosition(0, transform.position);
+            lineRend.SetPosition(1, hitInfo.point);
+            
+            HitByRocket(-dir.normalized*bulletPow,bulletPow);
+        }
+        else
+        {
+            lineRend.SetPosition(0, transform.position);
+            lineRend.SetPosition(1, PlayerShooting.instance.bulletMuzzle.transform.up*100);
+        }
+        StartCoroutine(DisplayLineRend(5));
+    }
+    private IEnumerator DisplayLineRend(float frames)
+    {
+        lineRend.enabled = true;
+        for (int i = 0; i < frames; i++)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        lineRend.enabled = false;
+    }
     public void FireBullet(float bulletType, float bulletSpeed, float offsetX, float offsetY, float attackIndex, float bulletRot)
     {
         var offset = new Vector3(offsetX * direction, offsetY, 0);
@@ -766,16 +794,16 @@ public class CharacterObject : MonoBehaviour
 
     public void HitByRocket(Vector2 expVel, float explosionForce)
     {
-        AttackEvent curAtk = GameEngine.coreData.characterStates[weakShotIndex].attacks[0];
-        if (CanBeHit(curAtk))
-        {
-            healthManager.RemoveHealth(2);
-            PlayAudio("Hurt");
-            StartInvul(explosionForce / 10);
-        }
+        //AttackEvent curAtk = GameEngine.coreData.characterStates[weakShotIndex].attacks[0];
+        //if (CanBeHit(curAtk))
+        //{
+        //    healthManager.RemoveHealth(2);
+        //    PlayAudio("Hurt");
+        //    StartInvul(explosionForce / 10);
+        //}
 
-        StartState(spinStateIndex);
-        isSpinning = true;
+        //StartState(spinStateIndex);
+        //isSpinning = true;
         newSpeed = explosionForce / 2;
         velocity += expVel;
         bombDashParticle.Play();
@@ -812,9 +840,9 @@ public class CharacterObject : MonoBehaviour
         if (Input.GetButtonDown(GameEngine.coreData.rawInputs[8].name))
             PauseManager.pauseManager.PauseButtonPressed();
     }
-    private static void Screenshake()
+    private static void ShakeScreen(float intensity, float time)
     {
-        Camera.main.transform.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+        CinemachineShake.instance.ShakeCamera(intensity, time);
     }
     void JumpCut()
     {
