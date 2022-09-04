@@ -183,7 +183,7 @@ MonoBehaviour:
       - name: 
         val: 40
       - name: 
-        val: 8
+        val: 6
     - start: 0
       end: 5
       active: 1
@@ -204,9 +204,9 @@ MonoBehaviour:
       script: 12
       parameters:
       - name: 
-        val: 2
+        val: 3
       - name: 
-        val: 0.2
+        val: 0.25
     attacks:
     - start: 0
       length: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
     jumpReq: 0
     dashReq: 0
     meterReq: 0
-    dashCooldownReq: 0
+    dashCooldownReq: 45
     groundedReq: 0
     wallReq: 0
   - stateName: StrongFire

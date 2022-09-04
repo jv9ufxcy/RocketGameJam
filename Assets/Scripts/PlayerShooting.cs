@@ -15,6 +15,7 @@ public class PlayerShooting : MonoBehaviour
     public Transform playerAnchor, bulletMuzzle;
     [SerializeField] private GameObject playerCharacter;
     public LineRenderer lineRend;
+    public SpriteRenderer spriteRend;
     [Space]
     [Header("Charging Shot")]
     [SerializeField] private Slider chargeSlider;
@@ -41,6 +42,7 @@ public class PlayerShooting : MonoBehaviour
         {
             Debug.LogError("No Audio Manager in Scene");
         }
+        spriteRend = GetComponent<SpriteRenderer>();
         bulletMuzzle = GetComponentInChildren<Transform>();
         lineRend.transform.SetParent(null);
     }
@@ -52,7 +54,13 @@ public class PlayerShooting : MonoBehaviour
     {
         RotateWithAnalogDirection();
     }
-    
+    private void LateUpdate()
+    {
+        if (rightStick==Vector2.zero)
+            spriteRend.color = Color.clear;
+        else
+            spriteRend.color = Color.white;
+    }
     private void RotateWithAnalogDirection()
     {
         if (playerAnchor==null)

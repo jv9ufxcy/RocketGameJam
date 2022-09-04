@@ -679,6 +679,7 @@ public class CharacterObject : MonoBehaviour
         }
         else
         {
+            HitByRocket(-dir.normalized*(bulletPow/2),0);
             lineRend.SetPosition(0, transform.position);
             lineRend.SetPosition(1, PlayerShooting.instance.bulletMuzzle.transform.up*100);
         }
